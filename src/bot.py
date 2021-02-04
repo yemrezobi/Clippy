@@ -3,6 +3,7 @@ from discord import FFmpegPCMAudio
 from os import path
 import asyncio
 
+last = None
 # get token from token.txt
 with open("../token.txt", "r") as f:
     TOKEN = f.read()
@@ -29,6 +30,8 @@ async def play(ctx, *args):
         print("No such file (" + args[0] + ".mp3)")
         await ctx.reply(args[0] + " does not exist.")
         return
+    global last
+    last = args[0]
     user_channel = ctx.author.voice.channel
 
     # mama's spaghetti inc
@@ -51,6 +54,13 @@ async def play(ctx, *args):
 @bot.command(aliases=["r"])
 async def random(ctx):
     await ctx.send("so random lol xd")
+
+
+@bot.command(aliases=["re"])
+async def replay(ctx):
+    if last is None:
+        return
+    await play(ctx, last)
 
 
 bot.run(TOKEN)
