@@ -1,6 +1,8 @@
 from discord.ext import commands
 from discord import FFmpegPCMAudio
 from os import path
+from os import listdir
+from random import choice
 import asyncio
 
 last = None
@@ -53,7 +55,9 @@ async def play(ctx, *args):
 
 @bot.command(aliases=["r"])
 async def random(ctx):
-    await ctx.send("so random lol xd")
+    r = choice(listdir("../clips"))
+    r = r[:-4]
+    await play(ctx, r)
 
 
 @bot.command(aliases=["re"])
