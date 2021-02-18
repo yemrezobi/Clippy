@@ -67,7 +67,7 @@ async def list(ctx):
     files = listdir("../clips")
     for i in range(len(files)):             # remove file extensions (removes 4 characters, might be an issue with
         files[i] = files[i][:-4]            # extensions with more or less characters)
-    message = "`" + ", ".join(files) + "`"
+    message = "> " + ", ".join(files)
     await ctx.send(message)
 
 
