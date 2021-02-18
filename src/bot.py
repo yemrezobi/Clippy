@@ -62,6 +62,15 @@ async def replay(ctx):
     await play(ctx, last)
 
 
+@bot.command(aliases=["l"])
+async def list(ctx):
+    files = listdir("../clips")
+    for i in range(len(files)):             # remove file extensions (removes 4 characters, might be an issue with
+        files[i] = files[i][:-4]            # extensions with more or less characters)
+    message = "`" + ", ".join(files) + "`"
+    await ctx.send(message)
+
+
 async def connect(ctx):
     if ctx.author.voice is None:
         print("User not connected to voice.")
