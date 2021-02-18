@@ -120,8 +120,8 @@ async def play_queue(ctx, voice_client):
 
     while len(queue) > 0:
         last = queue.pop(0)
-
         voice_client.play(FFmpegPCMAudio(last))
+        last = last[9:-4]
         while voice_client.is_playing():
             await asyncio.sleep(0.2)
 
