@@ -1,5 +1,6 @@
 from discord.ext import commands
 from discord import FFmpegPCMAudio
+from discord import Embed
 from os import path
 from os import listdir
 from random import choice
@@ -13,12 +14,24 @@ playing = False
 with open("../token.txt", "r") as f:
     TOKEN = f.read()
 
-bot = commands.Bot(command_prefix=["clip!", "c!"])
+bot = commands.Bot(command_prefix=["clip!", "c!"], help_command=None)
 
 
 @bot.event
 async def on_ready():
     print("I'm ready to go!")
+
+
+@bot.command(aliases=["h"])
+async def help(ctx):
+    desc = ("help: guess what this does\n"
+            "play <clip>: plays the given clip (eg. clip!play test)\n"
+            "random: plays a random clip\n"
+            "replay: replays the last clip played\n"
+            "list: lists all clips\n")
+    embed = Embed(title="**Commands**", color=0x0660bd)
+    embed.description = desc
+    await ctx.send(embed=embed)
 
 
 @bot.command(aliases=["p"])
@@ -67,8 +80,10 @@ async def list(ctx):
     files = listdir("../clips")
     for i in range(len(files)):             # remove file extensions (removes 4 characters, might be an issue with
         files[i] = files[i][:-4]            # extensions with more or less characters)
-    message = "> " + ", ".join(files)
-    await ctx.send(message)
+    message = ", ".join(files)
+    embed = Embed(title="**Clips**", color=0xd71e3e)
+    embed.description = message
+    await ctx.send(embed=embed)
 
 
 async def connect(ctx):
